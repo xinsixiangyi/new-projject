@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import sys
-
+#xadmin中文转化
+from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,10 +29,14 @@ SECRET_KEY = '#0$7f41u88sv)j_g$#7^_(mn_3ovn7o6c_pegq)k-wxn7j!*7^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+#xadmin语言支持
+LANGUAGES = (
+    ('en', _('English')),
+    ('zh-hans', _('Chinese')),
+)
 ALLOWED_HOSTS = ["*"]
-
-
+#重载系统的用户，让UserProfile生效
+AUTH_USER_MODEL = "users.UserProfile"
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,7 +46,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "apps"
+    #xadmin支持包
+    'xadmin',
+    'crispy_forms',
+    'reversion',
+    #集成百度富文本编辑器
+    'DjangoUeditor',
+    # 'apps.users.apps.UsersConfig',
+    #应用
+    "users",
+    "goods",
+    "trades",
+    "user_operations"
 ]
 
 MIDDLEWARE = [
@@ -91,7 +107,7 @@ DATABASES = {
         'NAME': 'MxShop',
         'USER': 'root',
         'PASSWORD': 'yourpassword',
-        'HOST': '35.215.128.243',
+        'HOST': '34.92.184.5',
         'PORT': '3306',
         'OPTIONS': {'init_command': 'SET default_storage_engine =INNODB;'},
     }
